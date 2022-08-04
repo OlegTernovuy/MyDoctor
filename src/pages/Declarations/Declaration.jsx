@@ -1,12 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from "react";
 
 export const Declaration = () => {
-
-        return(
-            <>
-            <div className='containerPatients'>
-               efrg
-            </div>
-            </>
-        )
-}
+  return (
+    <>
+      <div className="containerPatients">efrg</div>
+    </>
+  );
+};
