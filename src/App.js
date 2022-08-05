@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Declaration } from "./pages/Declarations/Declaration";
 import { AddVac } from "./pages/addVac/AddVac";
-import Home from "./pages/Home/Home";
+import { Home } from "./pages/Home/Home";
 import { AddPrice } from "./pages/price/AddPrice";
 import { LoginPage } from "./pages/Login/LoginPage";
 import { Appointments } from "./pages/onlineAppo/onlineappoint";

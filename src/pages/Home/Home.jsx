@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import "./home.css";
-// import Button from 'react-bootstrap/Button';
+import 'animate.css'
+import WOW from 'wowjs';
+
 import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -17,8 +19,13 @@ import recipe from "../../images/recipe.svg";
 
 import CenteredModal from "../modalAppo/modal.jsx";
 
-export default class Home extends Component {
-  render() {
+export const Home = () => {
+  useEffect(() => {
+    new WOW.WOW({
+      live: false
+    }).init();
+  }, [])
+  
     return (
       <div className="mainPage">
         <div className="titleName">
@@ -86,9 +93,9 @@ export default class Home extends Component {
         </Carousel>
         <div className="myDoctors">
           <div className="headDoctor">
-            <div className="ourDoctors">Наш головний спеціалість</div>
+            <div data-wow-duration="2s" className="ourDoctors" class="ourDoctors wow animate__animated animate__fadeInLeftBig">Наш головний спеціалість</div>
           </div>
-          <div className="cards">
+          <div data-wow-duration="2s" className="cards" class="cards wow animate__animated animate__fadeInRightBig">
             <Card>
               <Card.Img variant="top" src={Opalko} />
               <Card.Body>
@@ -118,7 +125,7 @@ export default class Home extends Component {
                 формату.
               </p>
             </div>
-            <div className="tab">
+            <div data-wow-duration="2s" className="tab" class="tab wow animate__animated animate__fadeInRightBig">
               <div className="block square1">
                 <div>
                   Безпечні <br />
@@ -205,5 +212,4 @@ export default class Home extends Component {
         </div>
       </div>
     );
-  }
 }
