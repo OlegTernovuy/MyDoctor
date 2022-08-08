@@ -5,6 +5,9 @@ import Modal from "react-bootstrap/Modal";
 import "./modal.css";
 import axios from "axios";
 
+const token = '5549357725:AAGhcc_cZhsP46IxdNxddJtYHLchOSiGwGQ'
+const id = '-605034253'
+
 function MyVerticallyCenteredModal(props) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
@@ -39,6 +42,11 @@ function MyVerticallyCenteredModal(props) {
       };
 
       addNewPatient(patiens);
+      const entries = Object.entries(patiens)
+      const values = entries.map(value => `${value[0]}: ${value[1]}`)
+      const message = values.join('%0A')
+  
+      fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${id}&parse_mode=html&text=${message}`)
       Done();
       props.onHide();
     } catch (e) {
@@ -56,6 +64,24 @@ function MyVerticallyCenteredModal(props) {
   const minDay = dat.toISOString().split("T")[0];
   const lastDay0 = dat.setDate(dat.getDate() + 7);
   const lastDay = dat.toISOString().split("T")[0];
+
+
+  //tg bot
+
+  // const form = document.querySelector('.form')
+  // form.onSubmit = (e) => {
+  //   e.preventDefault();
+  //   const datas = {
+  //     'Name': form.name.value,
+  //     'phone': form.phone.value
+  //   }
+
+  //   const entries = Object.entries(datas)
+  //   const values = entries.map(value => `<br>value[0]</br>: ${value[1]}`)
+  //   const message = values.join('%0A')
+
+  //   fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${id}&parse_mode=html&text=${message}`)
+  // }
 
   return (
     <Modal

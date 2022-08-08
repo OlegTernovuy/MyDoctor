@@ -4,6 +4,10 @@ import { InfoPatients } from "./InfoPatients.jsx";
 import "./appoint.css";
 import axios from "axios";
 
+const token = '5549357725:AAGhcc_cZhsP46IxdNxddJtYHLchOSiGwGQ'
+const id = '-415439085'
+
+
 let source;
 
 export const Appointments = () => {
@@ -31,6 +35,7 @@ export const Appointments = () => {
       .delete(`https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients/${pat}`)
       .then(() => {
         getData();
+        console.log("Ok");
       })
       .catch((err) => {
         console.log(err);
@@ -45,14 +50,41 @@ export const Appointments = () => {
       const today = days.split("-").join("");
       if (par < today) {
         deletePat(item.id);
-        console.log("rf");
+        console.log("del");
       }
     });
   };
 
   useEffect(() => {
     getData();
+    // dat();
   }, []);
+
+  function scheduleExecution(futureDate, callback) {
+    // Set an intermediary timeout at every 1 hour interval, to avoid the
+    // 32 bit limitation in setting the timeout delay
+    var maxInterval = 60 * 60 * 1000;
+    var now = new Date();
+
+    if (futureDate - now > maxInterval) {
+      // Wait for maxInterval milliseconds, but make
+      // sure we don't go over the scheduled date
+      setTimeout(function () {
+        scheduleExecution(futureDate);
+      }, Math.min(futureDate - now, maxInterval));
+    } else {
+      // Set final timeout
+      setTimeout(callback, futureDate - now);
+    }
+  }
+  const futureDate = new Date();
+  scheduleExecution(futureDate, function () {
+    dat();
+  });
+
+  //telegram bot
+
+  
 
   const infoPatients = dateAboutPatients.map((item) => {
     return (
@@ -90,9 +122,9 @@ export const Appointments = () => {
           <div className="dataAppo">{infoPatients}</div>
         </div>
         <div className="downlAppo">
-          <button type="button" onClick={dat}>
+          {/* <button type="button" onClick={dat}>
             Оновити записи
-          </button>
+          </button> */}
         </div>
       </div>
     </>
