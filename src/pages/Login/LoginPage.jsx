@@ -1,67 +1,18 @@
 import React, { Component, useState } from "react";
 import "./LoginPage.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Login } from "../../LogReg/Login";
 
-// export default class LoginPage extends Component {
-export const LoginPage = ({
-  setIsLoggedIn,
-  // setUserName,
-  setIsAdmin,
-}) => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLoginChange = (e) => {
-    setLogin(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const history = useNavigate();
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    if (login === "admin" && password === "123") {
-      // setUserName(login)
-      setIsLoggedIn(true);
-      setIsAdmin(true);
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("isAdmin", true);
-      history("/");
-    }
-  };
+export const LoginPage = () => {
 
   return (
-    <>
-      <form className="loginForm" onSubmit={handleLogin}>
-        <h2>Авторизація</h2>
-        <div>
-          <input
-            className="loginFormInput"
-            type="text"
-            placeholder="Логін"
-            required
-            onChange={handleLoginChange}
-          />
-        </div>
-        <div>
-          <input
-            className="loginFormInput"
-            type="password"
-            placeholder="Пароль"
-            required
-            onChange={handlePasswordChange}
-          />
-        </div>
-        <div>
-          <button className="BlackBtn" type="submit">
-            увійти
-          </button>
-        </div>
-      </form>
-    </>
+    <div>
+      <h2>Авторизація</h2>
+      <Login/>
+      <p>
+        Or <Link to="/Register">Register</Link>
+      </p>
+    </div>
   );
 };

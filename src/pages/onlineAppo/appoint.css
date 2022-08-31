@@ -27,6 +27,7 @@
   background-color: #e4f2ff;
   margin-bottom: 10px;
   border-radius: 15px;
+  /* width: 100%; */
 }
 
 .listPatients {
@@ -37,6 +38,9 @@
   background-color: #f2fcff;
   margin-bottom: 5px;
   border-radius: 15px;
+
+  /* width: 100%;
+  text-align: center; */
 }
 
 .appo {

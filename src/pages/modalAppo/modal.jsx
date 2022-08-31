@@ -5,8 +5,10 @@ import Modal from "react-bootstrap/Modal";
 import "./modal.css";
 import axios from "axios";
 
-const token = '5549357725:AAGhcc_cZhsP46IxdNxddJtYHLchOSiGwGQ'
-const id = '-605034253'
+let source;
+
+const token = "5549357725:AAGhcc_cZhsP46IxdNxddJtYHLchOSiGwGQ";
+const id = "-605034253";
 
 function MyVerticallyCenteredModal(props) {
   const [name, setName] = useState("");
@@ -19,8 +21,37 @@ function MyVerticallyCenteredModal(props) {
     alert("Ви успішно записалися на прийом");
   }
 
+  const [dateAboutPatients, setDateAboutPatients] = useState();
+
+  const getDataPat = () => {
+    source = axios.CancelToken.source();
+    axios
+      .get("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients", {
+        cancelToken: source.token,
+      })
+      .then((response) => {
+        setDateAboutPatients(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const addToTgBot = (patiens) => {
+    const entries = Object.entries(patiens);
+    const values = entries.map((value) => `${value[0]}: ${value[1]}`);
+    const message = values.join("%0A");
+
+    fetch(
+      `https://api.telegram.org/bot${token}/sendMessage?chat_id=${id}&parse_mode=html&text=${message}`
+    );
+  };
+
+  useEffect(() => {
+    getDataPat();
+  }, []);
+
   const addNewPatient = (Patients) => {
-    // setIsPending(true)
     axios
       .post("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients", Patients)
       .then((response) => {})
@@ -41,14 +72,22 @@ function MyVerticallyCenteredModal(props) {
         reason: reason,
       };
 
-      addNewPatient(patiens);
-      const entries = Object.entries(patiens)
-      const values = entries.map(value => `${value[0]}: ${value[1]}`)
-      const message = values.join('%0A')
-  
-      fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${id}&parse_mode=html&text=${message}`)
+      // dateAboutPatients.map((item) => {
+      //   if (item.time == time && item.date == date) {
+      //     return false;
+      //   } else {
+      //     addNewPatient(patiens)
+      //     addToTgBot(patiens)
+      //     Done();
+      //     props.onHide();
+      //   }
+      // });
+
+      addNewPatient(patiens)
+      addToTgBot(patiens)
       Done();
       props.onHide();
+
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -64,24 +103,6 @@ function MyVerticallyCenteredModal(props) {
   const minDay = dat.toISOString().split("T")[0];
   const lastDay0 = dat.setDate(dat.getDate() + 7);
   const lastDay = dat.toISOString().split("T")[0];
-
-
-  //tg bot
-
-  // const form = document.querySelector('.form')
-  // form.onSubmit = (e) => {
-  //   e.preventDefault();
-  //   const datas = {
-  //     'Name': form.name.value,
-  //     'phone': form.phone.value
-  //   }
-
-  //   const entries = Object.entries(datas)
-  //   const values = entries.map(value => `<br>value[0]</br>: ${value[1]}`)
-  //   const message = values.join('%0A')
-
-  //   fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${id}&parse_mode=html&text=${message}`)
-  // }
 
   return (
     <Modal
@@ -119,7 +140,7 @@ function MyVerticallyCenteredModal(props) {
             required
           />
 
-          <input
+          {/* <input
             className="inputTime"
             type="time"
             min="09:00"
@@ -129,18 +150,39 @@ function MyVerticallyCenteredModal(props) {
             value={time}
             onChange={(e) => setTime(e.target.value)}
             required
-          />
-          <small>Кожні пів години</small>
+          /> */}
+          <select
+            className="inputTime"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            required
+          >
+            <option value="">Оберіть час</option>
+            <option value="9:00">9:00</option>
+            <option value="9:30">9:30</option>
+            <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
+            <option value="12:00">12:00</option>
+            <option value="12:30">12:30</option>
+            <option value="13:00">13:00</option>
+            <option value="13:30">13:30</option>
+            <option value="14:00">14:00</option>
+            <option value="14:30">14:30</option>
+            <option value="15:00">15:00</option>
+          </select>
+          {/* <small>Кожні пів години</small> */}
 
           <br />
 
           <input
             className="inputPhone"
-            type="number"
+            type="phone"
             id="phone"
             name="phone"
             placeholder="Телефон"
-            // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            // pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             required

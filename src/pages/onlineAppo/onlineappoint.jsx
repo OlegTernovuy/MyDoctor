@@ -4,9 +4,6 @@ import { InfoPatients } from "./InfoPatients.jsx";
 import "./appoint.css";
 import axios from "axios";
 
-const token = '5549357725:AAGhcc_cZhsP46IxdNxddJtYHLchOSiGwGQ'
-const id = '-415439085'
-
 
 let source;
 
@@ -57,7 +54,6 @@ export const Appointments = () => {
 
   useEffect(() => {
     getData();
-    // dat();
   }, []);
 
   function scheduleExecution(futureDate, callback) {
@@ -82,9 +78,7 @@ export const Appointments = () => {
     dat();
   });
 
-  //telegram bot
 
-  
 
   const infoPatients = dateAboutPatients.map((item) => {
     return (
@@ -101,7 +95,7 @@ export const Appointments = () => {
 
   return (
     <>
-      <div className="containerPatients">
+<div className="containerPatients">
         <div className="titleTable">Таблиця записів</div>
         <div className="infoAppo">
           <div className="titleAppo">

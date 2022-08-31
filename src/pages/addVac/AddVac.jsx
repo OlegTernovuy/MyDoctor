@@ -6,9 +6,10 @@ import { EditVacModal } from "./EditVacModal";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 
+
 let source;
 
-export const AddVac = ({ isAdmin }) => {
+export const AddVac = ({ isLoggedIn, isAdmin, isAuth }) => {
   const [showAddVacForm, setShowAddVacForm] = useState(false);
   const [showEditVacForm, setShowEditVacForm] = useState(false);
   const [VacArr, setVacArr] = useState([]);
@@ -155,11 +156,13 @@ export const AddVac = ({ isAdmin }) => {
           {isPending && <CircularProgress className="preLoader" />}
         </div>
 
-        {isAdmin && (
+        {isAuth ? (
           <div className="addVacButton">
             <button onClick={handleShowAddVacForm}>Додати нову вакцину</button>
           </div>
-        )}
+        ) :
+          <div>no</div>
+        }
       </div>
     </>
   );

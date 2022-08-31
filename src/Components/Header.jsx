@@ -1,18 +1,20 @@
-import { set } from "firebase/database";
 import React from "react";
 
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Header.css";
 import SidePhonePanel from "./phone";
+import { useDispatch } from "react-redux";
+import { removeUser } from "../pages/store/slices/userSlice";
 
-const Header = ({ isLoggedIn, setIsLoggedIn, setIsAdmin }) => {
+const Header = ({ isAuth, isLoggedIn, setIsLoggedIn, setIsAdmin }) => {
   const handleLogOut = () => {
     localStorage.setItem("isLoggedIn", false);
     setIsLoggedIn(false);
     localStorage.setItem("isAdmin", false);
     setIsAdmin(false);
   };
+  const dispatch = useDispatch()
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="light">
@@ -35,7 +37,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn, setIsAdmin }) => {
               <Nav.Link eventKey="3" as={Link} to="/price">
                 Послуги
               </Nav.Link>
-              {isLoggedIn ? (
+              {isAuth ? (
                 <>
                   <Nav.Link eventKey="5" as={Link} to="/onlineappoint">
                     Записи
@@ -44,15 +46,20 @@ const Header = ({ isLoggedIn, setIsLoggedIn, setIsAdmin }) => {
                     eventKey="4"
                     as={Link}
                     to="/"
-                    onClick={handleLogOut}
+                    onClick={() => dispatch(removeUser())}
                   >
                     Вийти
                   </Nav.Link>
                 </>
               ) : (
-                <Nav.Link eventKey="4" as={Link} to="/loginPage">
-                  Увійти
-                </Nav.Link>
+                <>
+                  <Nav.Link eventKey="6" as={Link} to="/loginPage">
+                    Увійти
+                  </Nav.Link>
+                  {/* <Nav.Link eventKey="7" as={Link} to="/Register">
+                    Зареєструватися
+                  </Nav.Link> */}
+                </>
               )}
             </Nav>
             <div className="workSchedule">

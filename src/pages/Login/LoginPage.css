@@ -41,3 +41,7 @@
 .loginForm button {
   width: 100%;
 }
+
+.loginForm p {
+  margin-top: 10px;
+}

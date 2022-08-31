@@ -19,12 +19,17 @@ import recipe from "../../images/recipe.svg";
 
 import CenteredModal from "../modalAppo/modal.jsx";
 
-export const Home = () => {
+import { useDispatch } from "react-redux";
+import { removeUser } from "../store/slices/userSlice";
+
+export const Home = ({isAuth}) => {
   useEffect(() => {
     new WOW.WOW({
       live: false,
     }).init();
   }, []);
+
+  const dispatch = useDispatch()
 
   return (
     <div className="mainPage">
