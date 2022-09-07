@@ -10,7 +10,7 @@ export default function Footer() {
         </div>
         <div className="SocialLink">
           <a
-            href="https://uk-ua.facebook.com/people/%D0%90%D0%BD%D0%B0%D1%82%D0%BE%D0%BB%D1%96%D0%B9-%D0%9E%D0%BF%D0%B0%D0%BB%D1%8C%D0%BA%D0%BE/100007643763363/"
+            href="/"
             target="_blank"
           >
             <img

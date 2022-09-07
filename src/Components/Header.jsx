@@ -91,7 +91,7 @@ const Header = ({ isAuth, isLoggedIn, setIsLoggedIn, setIsAdmin }) => {
                   width={20}
                 />
               </div>
-              м. Кременець, вул.107 Кременецької дивізії, 41
+              адреса
             </div>
           </Navbar.Collapse>
         </Container>

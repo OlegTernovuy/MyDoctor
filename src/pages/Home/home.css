@@ -182,6 +182,7 @@
 @media (max-width: 992px) {
   .cards {
     width: auto;
+    margin: 0 15px;
   }
 }
 
@@ -245,6 +246,7 @@
     position: absolute;
     left: 0;
     top: 0;
+    margin: 0 15px;
   }
 }
 
@@ -258,6 +260,12 @@
   display: flex;
   flex-wrap: wrap;
   border-radius: 5%;
+}
+
+@media (max-width: 1170px) {
+  .tab {
+    right: 70px;
+  }
 }
 
 @media (max-width: 992px) {

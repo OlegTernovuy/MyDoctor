@@ -9,7 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 let source;
 
-export const AddPrice = ({ isAdmin }) => {
+export const AddPrice = ({ isAuth }) => {
   const [showAddPriceForm, setShowAddPriceForm] = useState(false);
   const [showEditPriceForm, setShowEditPriceForm] = useState(false);
   const [PriceArr, setPriceArr] = useState([]);
@@ -109,7 +109,7 @@ export const AddPrice = ({ isAdmin }) => {
         deletePrice={() => deletePrice(item)}
         handleShowEditPriceForm={handleShowEditPriceForm}
         handlSelectPrice={() => handlSelectPrice(item)}
-        isAdmin={isAdmin}
+        isAuth={isAuth}
       />
     );
   });
@@ -161,7 +161,7 @@ export const AddPrice = ({ isAdmin }) => {
           {isPending && <CircularProgress className="preLoader" />}
         </div>
 
-        {isAdmin && (
+        {isAuth && (
           <div className="addVacButton">
             <button onClick={handleShowAddPriceForm}>
               Додати нову послугу

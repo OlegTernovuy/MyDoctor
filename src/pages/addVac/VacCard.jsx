@@ -9,6 +9,7 @@ export const VacCard = ({
   handleShowEditVacForm,
   handlSelectVac,
   isAdmin,
+  isAuth,
 }) => {
   const showEditForm = () => {
     handleShowEditVacForm();
@@ -18,7 +19,7 @@ export const VacCard = ({
   return (
     <div className="vacList1">
       <div className="vacName">{title}</div>
-      {isAdmin ? (
+      {isAuth ? (
         <div className="PoslugaPrice">
           {price}
           <button onClick={showEditForm}>

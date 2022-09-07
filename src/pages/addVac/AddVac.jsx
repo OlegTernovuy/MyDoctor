@@ -106,6 +106,7 @@ export const AddVac = ({ isLoggedIn, isAdmin, isAuth }) => {
         handleShowEditVacForm={handleShowEditVacForm}
         handlSelectVac={() => handlSelectVac(item)}
         isAdmin={isAdmin}
+        isAuth={isAuth}
       />
     );
   });
@@ -156,12 +157,11 @@ export const AddVac = ({ isLoggedIn, isAdmin, isAuth }) => {
           {isPending && <CircularProgress className="preLoader" />}
         </div>
 
-        {isAuth ? (
+        {isAuth && (
           <div className="addVacButton">
             <button onClick={handleShowAddVacForm}>Додати нову вакцину</button>
           </div>
-        ) :
-          <div>no</div>
+        )
         }
       </div>
     </>

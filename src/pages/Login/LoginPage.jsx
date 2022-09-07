@@ -7,11 +7,11 @@ import { Login } from "../../LogReg/Login";
 export const LoginPage = () => {
 
   return (
-    <div>
-      <h2>Авторизація</h2>
+    <div className="Form">
+      <h2 className="formTitle">Авторизація</h2>
       <Login/>
-      <p>
-        Or <Link to="/Register">Register</Link>
+      <p className="formRedirect">
+        Or: <Link to="/Register">Register</Link>
       </p>
     </div>
   );

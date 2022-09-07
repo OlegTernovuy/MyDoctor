@@ -5,11 +5,11 @@ import { SignUp } from "../../LogReg/SignUp";
 
 export const Register = () => {
   return (
-    <div>
-        <h2>Реєстрація</h2>
+    <div className="Form">
+        <h2 className="formTitle">Реєстрація</h2>
         <SignUp/>
-         <p>
-         Have an account <Link to="/loginPage">Увійти</Link>
+         <p className="formRedirect">
+         Have an account: <Link to="/loginPage">Увійти</Link>
       </p>
     </div>
   );

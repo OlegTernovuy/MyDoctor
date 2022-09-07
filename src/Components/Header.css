@@ -32,6 +32,11 @@
   background-color: #46aff5;
 }
 
+.navbar-light .navbar-nav .nav-link {
+  /* background-color: beige; */
+  max-width: max-content;
+}
+
 
 .workSchedule {
   display: flex;

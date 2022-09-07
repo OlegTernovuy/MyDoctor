@@ -22,13 +22,14 @@ export const Login = () => {
                 token: user.accessToken,
             }))
         }))
+        .catch(() => alert("Помилка: Введіть дані вірно!!!"))
         history("/")
-        .catch(() => alert("error"))
+        
 
     }
     return(
         <Form
-            title="sign in"
+            title="Sign in"
             handleClick={handleLogin}
         />
     )

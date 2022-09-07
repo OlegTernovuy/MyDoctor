@@ -16,6 +16,8 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.1.3",
     "cdbreact": "^1.5.2",
+    "express": "^4.18.1",
+    "express-react-views": "^0.11.0",
     "firebase": "^9.9.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
@@ -25,6 +27,7 @@
     "react-router-bootstrap": "^0.26.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "sass": "^1.54.8",
     "uid": "^2.0.0",
     "web-vitals": "^2.1.4",
     "wow.js": "^1.2.2",
@@ -34,7 +37,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "back": "node backend/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -56,5 +60,6 @@
   },
   "devDependencies": {
     "prettier": "2.7.1"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

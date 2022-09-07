@@ -20,13 +20,13 @@ export const SignUp = () => {
                 token: user.accessToken,
             }))
         }))
+        .catch(() => alert("Помилка: Введіть дані вірно!!!"))
         history("/")
-        .catch(() => alert("error"))
 
     }
     return(
         <Form
-            title="register"
+            title="Register"
             handleClick={handleRegister}
         />
     )

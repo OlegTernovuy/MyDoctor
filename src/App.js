@@ -18,9 +18,8 @@ import Footer from "./Components/footer";
 import { useDispatch } from "react-redux";
 
 function App() {
-  const dispatch = useDispatch()
-  const {isAuth} = useAuth()
-
+  const dispatch = useDispatch();
+  const { isAuth } = useAuth();
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn") === "true"
@@ -39,21 +38,12 @@ function App() {
         // setIsAdmin={setIsAdmin}
       />
       <Routes>
-        <Route index element={<Home isAuth={isAuth}/>} />
-        <Route path="addVac" element={<AddVac  isLoggedIn={isLoggedIn} isAuth={isAuth} />} />
+        <Route index element={<Home />} />
+        <Route path="addVac" element={<AddVac isAuth={isAuth} />} />
         <Route path="declaration" element={<Declaration />} />
         <Route path="price" element={<AddPrice isAuth={isAuth} />} />
-        <Route
-          path="loginPage"
-          element={
-            <LoginPage
-              setIsLoggedIn={setIsLoggedIn}
-              // setUserName={setUserName}
-              // setIsAdmin={setIsAdmin}
-            />
-          }
-        />
-        <Route path="Register" element={<Register/>} />
+        <Route path="loginPage" element={<LoginPage />} />
+        <Route path="Register" element={<Register />} />
         <Route path="onlineappoint" element={<Appointments />} />
       </Routes>
       <Footer />

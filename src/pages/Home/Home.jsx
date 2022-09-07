@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./home.css";
 import "animate.css";
 import WOW from "wowjs";
@@ -6,7 +6,7 @@ import WOW from "wowjs";
 import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import Opalko from "../../images/opalko.jpeg";
+// import Opalko from "../../images/opalko.jpeg";
 
 import bg from "../../images/bg.jpeg";
 import likar from "../../images/vrach.svg";
@@ -31,6 +31,14 @@ export const Home = ({isAuth}) => {
 
   const dispatch = useDispatch()
 
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+    fetch('/app')
+    .then(response => response.json())
+    .then(response => setData(response.message))
+  }, [])
+
   return (
     <div className="mainPage">
       <div className="titleName">
@@ -46,6 +54,9 @@ export const Home = ({isAuth}) => {
               обслуговування. Ми цінуємо кожного пацієнта, який довірив нам своє
               здоров'я.
             </p>
+            <p>{
+              !data ? "Loading..." : data
+            }</p>
           </div>
           <div className="buton">
             <CenteredModal />
@@ -112,9 +123,9 @@ export const Home = ({isAuth}) => {
           class="cards wow animate__animated animate__fadeInRightBig"
         >
           <Card>
-            <Card.Img variant="top" src={Opalko} />
+            <Card.Img variant="top" />
             <Card.Body>
-              <Card.Title>Анатолій Опалько</Card.Title>
+              <Card.Title>ім'я</Card.Title>
               <Card.Text>
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
