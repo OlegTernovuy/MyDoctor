@@ -16,7 +16,7 @@ export const EditVacModal = ({ handleHideEditVacForm, selectVac, EditVac }) => {
 
   const editVac = () => {
     const vacs = {
-      id: selectVac.id,
+      id: selectVac._id,
       title: VacTitle,
       price: PoslugaVac,
     };

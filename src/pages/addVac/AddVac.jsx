@@ -3,11 +3,8 @@ import "./Vaccination.css";
 import { VacCard } from "./VacCard";
 import { AddVacModal } from "./AddVacModal";
 import { EditVacModal } from "./EditVacModal";
-import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 
-
-let source;
 
 export const AddVac = ({ isLoggedIn, isAdmin, isAuth }) => {
   const [showAddVacForm, setShowAddVacForm] = useState(false);
@@ -16,20 +13,21 @@ export const AddVac = ({ isLoggedIn, isAdmin, isAuth }) => {
   const [selectVac, setSelectVac] = useState({});
   const [isPending, setIsPending] = useState(false);
 
-  const getData = () => {
-    setIsPending(true);
-    source = axios.CancelToken.source();
-    axios
-      .get("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Vacs", {
-        cancelToken: source.token,
-      })
-      .then((response) => {
-        setIsPending(false);
-        setVacArr(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const getData = async () => {
+	try{
+		setIsPending(true);
+		const responce = await fetch('https://doctor-study-project.herokuapp.com/vaccines')
+		if(responce.status === 200){
+			const data = await responce.json()
+			setIsPending(false);
+			setVacArr(data);
+		}
+
+	}catch(err){
+		setIsPending(false);
+		console.log(err);
+	}
+
   };
 
   useEffect(() => {
@@ -55,58 +53,81 @@ export const AddVac = ({ isLoggedIn, isAdmin, isAuth }) => {
     setSelectVac(Vac);
   };
 
-  const deleteVac = (MyVac) => {
-    if (
-      window.confirm(`Ви впевнені, що хочете видалити вакцину: ${MyVac.title}?`)
-    ) {
-      setIsPending(true);
-      axios
-        .delete(`https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Vacs/${MyVac.id}`)
-        .then(() => {
-          getData();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+  const deleteVac = async (MyVac) => {
+	try{
+		if (
+			window.confirm(`Ви впевнені, що хочете видалити вакцину: ${MyVac.title}?`)
+		){
+			setIsPending(true)
+			const responce = await fetch('https://doctor-study-project.herokuapp.com/vaccines/' + MyVac._id,{
+				method:'DELETE',
+			})
+			
+			if(responce.status === 200){
+				getData()
+			}
+		}
+	}catch(err){
+		console.log(err)
+	}
   };
 
-  const addNewVac = (MyVac) => {
-    setIsPending(true);
-    axios
-      .post("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Vacs", MyVac)
-      .then((response) => {
-        getData();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const addNewVac = async (MyVac) => {
+	try{
+		setIsPending(true);
+		const responce = await fetch('https://doctor-study-project.herokuapp.com/vaccines',{
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json'
+			},
+			body: JSON.stringify(MyVac)
+		})
+
+		if(responce.status === 200){
+			getData()
+		}
+
+
+	}catch(err){
+		console.log(err);
+	}
+
+
   };
 
-  const EditVac = (updateVac) => {
-    setIsPending(true);
-    axios
-      .put(
-        `https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Vacs/${updateVac.id}`,
-        updateVac
-      )
-      .then(() => {
+  const EditVac = async (updateVac) => {
+	try{
+		setIsPending(true);
+		const responce = await fetch('https://doctor-study-project.herokuapp.com/vaccines/' + updateVac.id,{
+			method:'PUT',
+			headers:{
+				'Content-Type':'application/json'
+			},
+			body: JSON.stringify({title:updateVac.title,price:updateVac.price})
+		})
+		if(responce.status === 200){
         getData();
-      });
+		}else{
+			setIsPending(false);
+		}
+
+	}catch(err){
+		setIsPending(false);
+		console.log(err);
+	}
   };
 
   const vacPosts = VacArr.map((item) => {
     return (
       <VacCard
-        key={item.id}
-        id={item.id}
+        key={item._id}
+        id={item._id}
         title={item.title}
         price={item.price}
         deleteVac={() => deleteVac(item)}
         handleShowEditVacForm={handleShowEditVacForm}
         handlSelectVac={() => handlSelectVac(item)}
         isAdmin={isAdmin}
-        isAuth={isAuth}
       />
     );
   });
@@ -157,11 +178,11 @@ export const AddVac = ({ isLoggedIn, isAdmin, isAuth }) => {
           {isPending && <CircularProgress className="preLoader" />}
         </div>
 
-        {isAuth && (
+        {isAdmin && (
           <div className="addVacButton">
             <button onClick={handleShowAddVacForm}>Додати нову вакцину</button>
           </div>
-        )
+        ) 
         }
       </div>
     </>

@@ -4,32 +4,30 @@ import "./AddPrice.css";
 import { PriceCard } from "./PriceCard";
 import { AddPriceModal } from "./AddPriceModal";
 import { EditPriceModal } from "./EditPriceModal";
-import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 
-let source;
-
-export const AddPrice = ({ isAuth }) => {
+export const AddPrice = ({ isAdmin }) => {
   const [showAddPriceForm, setShowAddPriceForm] = useState(false);
   const [showEditPriceForm, setShowEditPriceForm] = useState(false);
   const [PriceArr, setPriceArr] = useState([]);
   const [selectPrice, setSelectPrice] = useState({});
   const [isPending, setIsPending] = useState(false);
 
-  const getData = () => {
-    setIsPending(true);
-    source = axios.CancelToken.source();
-    axios
-      .get("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Price", {
-        cancelToken: source.token,
-      })
-      .then((response) => {
-        setIsPending(false);
-        setPriceArr(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const getData = async () => {
+	try{
+		setIsPending(true);
+		const responce = await fetch('https://doctor-study-project.herokuapp.com/prices')
+
+		if(responce.status === 200){
+			const data = await responce.json()
+			setIsPending(false);
+			setPriceArr(data);
+		}
+
+	}catch(err){
+		setIsPending(false)
+		console.log(err);
+	}
   };
 
   useEffect(() => {
@@ -55,61 +53,86 @@ export const AddPrice = ({ isAuth }) => {
     setSelectPrice(Price);
   };
 
-  const deletePrice = (MyPrice) => {
-    if (
+  const deletePrice = async (MyPrice) => {
+	if (
       window.confirm(
         `Ви впевнені, що хочете видалити послугу: ${MyPrice.title}?`
       )
     ) {
-      setIsPending(true);
-      axios
-        .delete(
-          `https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Price/${MyPrice.id}`
-        )
-        .then(() => {
-          getData();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+		try{
+			setIsPending(true)
+			const responce = await fetch('https://doctor-study-project.herokuapp.com/prices/' + MyPrice._id,{
+				method:'DELETE'
+			})
+			if(responce.status === 200){
+				getData()
+			}else{
+				setIsPending(false)
+			}
+
+		}catch(err){
+			setIsPending(false)
+			console.log(err);
+		}
     }
   };
 
-  const addNewPrice = (MyPrice) => {
-    setIsPending(true);
-    axios
-      .post("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Price", MyPrice)
-      .then((response) => {
-        getData();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const addNewPrice = async (MyPrice) => {
+	try{
+   	setIsPending(true);
+		const responce = await fetch('https://doctor-study-project.herokuapp.com/prices',{
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json'
+			},
+			body: JSON.stringify(MyPrice)
+		})
+		if(responce.status === 200){
+			getData()
+		}else{
+			setIsPending(false)
+		}
+
+	}catch(err){
+		setIsPending(false)
+		console.log(err)
+	}
   };
 
-  const EditPrice = (updatePrice) => {
-    setIsPending(true);
-    axios
-      .put(
-        `https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Price/${updatePrice.id}`,
-        updatePrice
-      )
-      .then(() => {
+  const EditPrice = async (updatePrice) => {
+	try{
+		setIsPending(true)
+		const responce = await fetch('https://doctor-study-project.herokuapp.com/prices/' + updatePrice.id,{
+			method:'PUT',
+			headers:{
+				'Content-Type':'application/json'
+			},
+			body: JSON.stringify({title:updatePrice.title,price:updatePrice.price})
+		})
+
+		if(responce.status === 200){
         getData();
-      });
+		}else{
+			setIsPending(false)
+		}
+
+	}catch(err){
+		setIsPending(false)
+		console.log(err)
+	}
   };
 
   const pricePosts = PriceArr.map((item) => {
     return (
       <PriceCard
-        key={item.id}
-        id={item.id}
+        key={item._id}
+        id={item._id}
         title={item.title}
         price={item.price}
         deletePrice={() => deletePrice(item)}
         handleShowEditPriceForm={handleShowEditPriceForm}
         handlSelectPrice={() => handlSelectPrice(item)}
-        isAuth={isAuth}
+        isAdmin={isAdmin}
       />
     );
   });
@@ -138,7 +161,6 @@ export const AddPrice = ({ isAuth }) => {
             handleHideEditPriceForm={handleHideEditPriceForm}
             selectPrice={selectPrice}
             EditPrice={EditPrice}
-            // deletePrice = {this.deletePrice}
           />
         )}
         <div className="vaccination">Ціна на послуги</div>
@@ -161,7 +183,7 @@ export const AddPrice = ({ isAuth }) => {
           {isPending && <CircularProgress className="preLoader" />}
         </div>
 
-        {isAuth && (
+        {isAdmin && (
           <div className="addVacButton">
             <button onClick={handleShowAddPriceForm}>
               Додати нову послугу

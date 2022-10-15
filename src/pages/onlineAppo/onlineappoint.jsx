@@ -11,33 +11,70 @@ export const Appointments = () => {
   const [dateAboutPatients, setDateAboutPatients] = useState([]);
   const [IsPending, setIsPending] = useState(false);
 
-  const getData = () => {
-    setIsPending(true);
-    source = axios.CancelToken.source();
-    axios
-      .get("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients", {
-        cancelToken: source.token,
-      })
-      .then((response) => {
-        setIsPending(false);
-        setDateAboutPatients(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const getData = async () => {
+   //  setIsPending(true);
+   //  source = axios.CancelToken.source();
+   //  axios
+   //    .get("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients", {
+   //      cancelToken: source.token,
+   //    })
+   //    .then((response) => {
+   //      setIsPending(false);
+   //      setDateAboutPatients(response.data);
+   //    })
+   //    .catch((err) => {
+   //      console.log(err);
+   //    });
+	try{
+		const responce = await fetch('https://doctor-study-project.herokuapp.com/patients')
+
+		if(responce.status === 200){
+			const data = await responce.json()
+			setIsPending(false);
+			setDateAboutPatients(data);
+
+		}else{
+			setDateAboutPatients([]);
+			setIsPending(false)
+		}
+
+	}catch(err){
+		setDateAboutPatients([]);
+		setIsPending(false)
+		console.log(err)
+	}
   };
 
-  const deletePat = (pat) => {
-    axios
-      .delete(`https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients/${pat}`)
-      .then(() => {
-        getData();
-        console.log("Ok");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const deletePat = (pat) => {
+  //   axios
+  //     .delete(`https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients/${pat}`)
+  //     .then(() => {
+  //       getData();
+  //       console.log("Ok");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  const deletePat = async (pat) => {
+
+     try{
+       setIsPending(true)
+       const responce = await fetch('https://doctor-study-project.herokuapp.com/patients/' + pat._id,{
+         method:'DELETE'
+       })
+       if(responce.status === 200){
+         getData()
+       }else{
+         setIsPending(false)
+       }
+ 
+     }catch(err){
+       setIsPending(false)
+       console.log(err);
+     }
+   };
 
   const dat = () => {
     dateAboutPatients.map((item) => {
@@ -79,11 +116,10 @@ export const Appointments = () => {
   });
 
 
-
   const infoPatients = dateAboutPatients.map((item) => {
     return (
       <InfoPatients
-        key={item.id}
+        key={item._id}
         name={item.name}
         date={item.date}
         time={item.time}

@@ -1,32 +1,38 @@
 import { Form } from "./Form";
-import { useDispatch } from "react-redux";
-import { setUser  } from "../pages/store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 export const SignUp = () => {
-    const dispatch = useDispatch(); 
     const history = useNavigate();
 
 
-    const handleRegister = (email, password) => {
-        const auth = getAuth();
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((({user}) => {
-            dispatch(setUser({
-                email: user.email,
-                id: user.uid,
-                token: user.accessToken,
-            }))
-        }))
-        .catch(() => alert("Помилка: Введіть дані вірно!!!"))
-        history("/")
+    const handleRegister = async (email, password) => {
+		try{
+			const responce = await fetch('https://doctor-study-project.herokuapp.com/auth/registration',{
+				method:'POST',
+				headers:{
+					'Content-Type':'application/json'
+				},
+				body: JSON.stringify({username:email,password})
+			})
+			const data = await responce.json()
+			
+			if(responce.status === 200){
+				history("/loginPage")
+				alert(data.message)
+			}else{
+				alert(data.message)
+			}
+
+		}catch(err){
+			alert(err)
+			console.log(err);
+		}
 
     }
     return(
         <Form
-            title="Register"
+            title="register"
             handleClick={handleRegister}
         />
     )

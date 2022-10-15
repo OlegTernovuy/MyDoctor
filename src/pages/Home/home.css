@@ -41,6 +41,30 @@
   text-align: center;
 }
 
+.appBut {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+  color: #0dcaf0;
+  border-color: #0dcaf0;
+  border: solid;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-color: #fff;
+  appearance: none;
+}
+
+.appBut:hover {
+  background: #0dcaf0;
+  color: #000;
+  border-color: #0dcaf0;
+}
+
 .someInfo {
   padding-top: 10px;
 }
@@ -149,8 +173,8 @@
 /*Лікарі*/
 
 .myDoctors {
-  display: flex;
-  justify-content: space-around;
+  /* display: flex;
+  justify-content: space-around; */
   padding: 30px 0;
   /* text-align: center; */
 }
@@ -163,11 +187,11 @@
   }
 }
 
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   .headDoctor {
     width: 30%;
   }
-}
+} */
 
 @media (max-width: 992px) {
   .ourDoctors {
@@ -176,21 +200,33 @@
 }
 
 .cards {
-  width: 25rem;
+  /* width: 25rem; */
+  display: flex;
+  justify-content: space-between;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+  gap: 15px;
+  /* padding: 4rem 0; */
+
 }
 
-@media (max-width: 992px) {
+/* @media (max-width: 600px) {
   .cards {
-    width: auto;
-    margin: 0 15px;
+    flex-direction: column;
   }
-}
+} */
 
 .headDoctor {
   padding-bottom: 30px;
   font-size: 70px;
   font-family: "Roboto Mono", monospace;
   text-align: center;
+  margin: 0 auto;
+}
+
+.card {
+  margin: 0 15px;
 }
 
 .card .card-title {
@@ -246,7 +282,6 @@
     position: absolute;
     left: 0;
     top: 0;
-    margin: 0 15px;
   }
 }
 
@@ -260,12 +295,6 @@
   display: flex;
   flex-wrap: wrap;
   border-radius: 5%;
-}
-
-@media (max-width: 1170px) {
-  .tab {
-    right: 70px;
-  }
 }
 
 @media (max-width: 992px) {

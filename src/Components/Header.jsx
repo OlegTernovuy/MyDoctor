@@ -4,17 +4,14 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Header.css";
 import SidePhonePanel from "./phone";
-import { useDispatch } from "react-redux";
-import { removeUser } from "../pages/store/slices/userSlice";
 
-const Header = ({ isAuth, isLoggedIn, setIsLoggedIn, setIsAdmin }) => {
+const Header = ({ isLoggedIn, setIsLoggedIn, setIsAdmin ,isAdmin}) => {
   const handleLogOut = () => {
     localStorage.setItem("isLoggedIn", false);
     setIsLoggedIn(false);
     localStorage.setItem("isAdmin", false);
     setIsAdmin(false);
   };
-  const dispatch = useDispatch()
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="light">
@@ -37,16 +34,18 @@ const Header = ({ isAuth, isLoggedIn, setIsLoggedIn, setIsAdmin }) => {
               <Nav.Link eventKey="3" as={Link} to="/price">
                 Послуги
               </Nav.Link>
-              {isAuth ? (
+              {isLoggedIn ? (
                 <>
-                  <Nav.Link eventKey="5" as={Link} to="/onlineappoint">
-                    Записи
-                  </Nav.Link>
+                  {isAdmin &&
+						<Nav.Link eventKey="5" as={Link} to="/onlineappoint">
+							Записи
+					 	</Nav.Link>
+						}
                   <Nav.Link
                     eventKey="4"
                     as={Link}
                     to="/"
-                    onClick={() => dispatch(removeUser())}
+                    onClick={() => handleLogOut()}
                   >
                     Вийти
                   </Nav.Link>
@@ -91,7 +90,7 @@ const Header = ({ isAuth, isLoggedIn, setIsLoggedIn, setIsAdmin }) => {
                   width={20}
                 />
               </div>
-              адреса
+              м. Кременець, вул.107 Кременецької дивізії, 41
             </div>
           </Navbar.Collapse>
         </Container>

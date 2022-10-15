@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./home.css";
 import "animate.css";
 import WOW from "wowjs";
@@ -6,7 +6,8 @@ import WOW from "wowjs";
 import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-// import Opalko from "../../images/opalko.jpeg";
+import Opalko from "../../images/opalko.jpeg";
+import CardDoc from "../../images/cardDoc.jpeg";
 
 import bg from "../../images/bg.jpeg";
 import likar from "../../images/vrach.svg";
@@ -19,25 +20,14 @@ import recipe from "../../images/recipe.svg";
 
 import CenteredModal from "../modalAppo/modal.jsx";
 
-import { useDispatch } from "react-redux";
-import { removeUser } from "../store/slices/userSlice";
 
-export const Home = ({isAuth}) => {
+export const Home = ({ isAuth, isLoggedIn }) => {
   useEffect(() => {
     new WOW.WOW({
       live: false,
     }).init();
   }, []);
 
-  const dispatch = useDispatch()
-
-  const [data, setData] = useState(null)
-
-  useEffect(() => {
-    fetch('/app')
-    .then(response => response.json())
-    .then(response => setData(response.message))
-  }, [])
 
   return (
     <div className="mainPage">
@@ -54,17 +44,24 @@ export const Home = ({isAuth}) => {
               обслуговування. Ми цінуємо кожного пацієнта, який довірив нам своє
               здоров'я.
             </p>
-            <p>{
-              !data ? "Loading..." : data
-            }</p>
           </div>
           <div className="buton">
-            <CenteredModal />
+            {isLoggedIn ? (
+              <CenteredModal />
+            ) : (
+              <button className="appBut"
+                onClick={() => {
+                  alert("Увійдіть");
+                }}
+              >
+                Записатися на прийом
+              </button>
+            )}
           </div>
         </div>
       </div>
       <Carousel fade>
-        <Carousel.Item interval={5000}>
+        <Carousel.Item interval={5005}>
           <div className="about_img">
             <img
               className="img"
@@ -78,7 +75,7 @@ export const Home = ({isAuth}) => {
             <div className="rightBlock"> </div>
           </div>
         </Carousel.Item>
-        <Carousel.Item interval={5000}>
+        <Carousel.Item interval={5005}>
           <div className="about_img">
             <img
               className="img"
@@ -92,7 +89,7 @@ export const Home = ({isAuth}) => {
             <div className="rightBlock"> </div>
           </div>
         </Carousel.Item>
-        <Carousel.Item interval={5000}>
+        <Carousel.Item interval={5005}>
           <div className="about_img">
             <img
               className="img"
@@ -114,7 +111,7 @@ export const Home = ({isAuth}) => {
             className="ourDoctors"
             class="ourDoctors wow animate__animated animate__fadeInLeftBig"
           >
-            Наш головний спеціалість
+            Наші спеціалісти
           </div>
         </div>
         <div
@@ -123,9 +120,9 @@ export const Home = ({isAuth}) => {
           class="cards wow animate__animated animate__fadeInRightBig"
         >
           <Card>
-            <Card.Img variant="top" />
+            <Card.Img variant="top" src={CardDoc} />
             <Card.Body>
-              <Card.Title>ім'я</Card.Title>
+              <Card.Title>Анатолій Опалько</Card.Title>
               <Card.Text>
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
@@ -133,6 +130,32 @@ export const Home = ({isAuth}) => {
             </Card.Body>
             <ListGroup className="list-group-flush">
               <ListGroup.Item>Педіатр, 5 років досвіду</ListGroup.Item>
+            </ListGroup>
+          </Card>
+          <Card>
+            <Card.Img variant="top" src={CardDoc} />
+            <Card.Body>
+              <Card.Title>Галина Карпюк</Card.Title>
+              <Card.Text>
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </Card.Text>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+              <ListGroup.Item>Педіатр, 15 років досвіду</ListGroup.Item>
+            </ListGroup>
+          </Card>
+          <Card>
+            <Card.Img variant="top" src={CardDoc} />
+            <Card.Body>
+              <Card.Title>Олеся Крижемська</Card.Title>
+              <Card.Text>
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </Card.Text>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+              <ListGroup.Item>Сімейний лікар, 4 роки досвіду</ListGroup.Item>
             </ListGroup>
           </Card>
         </div>

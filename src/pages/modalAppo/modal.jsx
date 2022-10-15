@@ -3,9 +3,6 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 import "./modal.css";
-import axios from "axios";
-
-let source;
 
 const token = "5549357725:AAGhcc_cZhsP46IxdNxddJtYHLchOSiGwGQ";
 const id = "-605034253";
@@ -21,21 +18,6 @@ function MyVerticallyCenteredModal(props) {
     alert("Ви успішно записалися на прийом");
   }
 
-  const [dateAboutPatients, setDateAboutPatients] = useState();
-
-  const getDataPat = () => {
-    source = axios.CancelToken.source();
-    axios
-      .get("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients", {
-        cancelToken: source.token,
-      })
-      .then((response) => {
-        setDateAboutPatients(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const addToTgBot = (patiens) => {
     const entries = Object.entries(patiens);
@@ -47,17 +29,19 @@ function MyVerticallyCenteredModal(props) {
     );
   };
 
-  useEffect(() => {
-    getDataPat();
-  }, []);
+  const addNewPatient = async (patient) => {
+	try{
+		const responce = await fetch('https://doctor-study-project.herokuapp.com/patients',{
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json'
+			},
+			body: JSON.stringify(patient)
+		})
 
-  const addNewPatient = (Patients) => {
-    axios
-      .post("https://62e3d9aa3c89b95396d1ebbd.mockapi.io/Patients", Patients)
-      .then((response) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+	}catch(err){
+		console.log(err)
+	}
   };
 
   const handleSubmit = (e) => {
@@ -71,17 +55,6 @@ function MyVerticallyCenteredModal(props) {
         phone: phone,
         reason: reason,
       };
-
-      // dateAboutPatients.map((item) => {
-      //   if (item.time == time && item.date == date) {
-      //     return false;
-      //   } else {
-      //     addNewPatient(patiens)
-      //     addToTgBot(patiens)
-      //     Done();
-      //     props.onHide();
-      //   }
-      // });
 
       addNewPatient(patiens)
       addToTgBot(patiens)
@@ -139,18 +112,6 @@ function MyVerticallyCenteredModal(props) {
             onChange={(e) => setDate(e.target.value)}
             required
           />
-
-          {/* <input
-            className="inputTime"
-            type="time"
-            min="09:00"
-            max="14:30"
-            required
-            step="1800"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-            required
-          /> */}
           <select
             className="inputTime"
             value={time}
@@ -172,7 +133,6 @@ function MyVerticallyCenteredModal(props) {
             <option value="14:30">14:30</option>
             <option value="15:00">15:00</option>
           </select>
-          {/* <small>Кожні пів години</small> */}
 
           <br />
 

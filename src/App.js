@@ -10,21 +10,14 @@ import { LoginPage } from "./pages/Login/LoginPage";
 import { Register } from "./pages/Register/Register";
 import { Appointments } from "./pages/onlineAppo/onlineappoint";
 
-import { useAuth } from "./hooks/use-auth";
-import { removeUser } from "./pages/store/slices/userSlice";
 
 import Header from "./Components/Header";
 import Footer from "./Components/footer";
-import { useDispatch } from "react-redux";
 
 function App() {
-  const dispatch = useDispatch();
-  const { isAuth } = useAuth();
-
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn") === "true"
   );
-  const [userName, setUserName] = useState("");
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("isAdmin") === "true"
   );
@@ -32,19 +25,29 @@ function App() {
   return (
     <>
       <Header
-        isAuth={isAuth}
+		    isAdmin={isAdmin}
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
-        // setIsAdmin={setIsAdmin}
+        setIsAdmin={setIsAdmin}
       />
       <Routes>
-        <Route index element={<Home />} />
-        <Route path="addVac" element={<AddVac isAuth={isAuth} />} />
+        <Route index element={<Home isLoggedIn={isLoggedIn}/>} />
+        <Route path="addVac" element={<AddVac  isLoggedIn={isLoggedIn} isAdmin={isAdmin} />} />
         <Route path="declaration" element={<Declaration />} />
-        <Route path="price" element={<AddPrice isAuth={isAuth} />} />
-        <Route path="loginPage" element={<LoginPage />} />
-        <Route path="Register" element={<Register />} />
+        <Route path="price" element={<AddPrice isAdmin={isAdmin} />} />
+        <Route
+          path="loginPage"
+          element={
+            <LoginPage	
+              setIsLoggedIn={setIsLoggedIn}
+              setIsAdmin={setIsAdmin}
+            />
+          }
+        />
+        <Route path="Register" element={<Register/>} />
+		  {isAdmin &&
         <Route path="onlineappoint" element={<Appointments />} />
+		  }
       </Routes>
       <Footer />
     </>

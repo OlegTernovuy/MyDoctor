@@ -1,17 +1,16 @@
 import React, { Component, useState } from "react";
 import "./LoginPage.css";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Login } from "../../LogReg/Login";
 
-export const LoginPage = () => {
+export const LoginPage = ({setIsAdmin,setIsLoggedIn}) => {
 
   return (
-    <div className="Form">
-      <h2 className="formTitle">Авторизація</h2>
-      <Login/>
+    <div>
+      <h2 className="loginForm">Авторизація</h2>
+      <Login setIsAdmin={setIsAdmin} setIsLoggedIn={setIsLoggedIn}/>
       <p className="formRedirect">
-        Or: <Link to="/Register">Register</Link>
+        Or <Link to="/Register">Register</Link>
       </p>
     </div>
   );

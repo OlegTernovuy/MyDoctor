@@ -5,7 +5,7 @@ export const Form = ({title, handleClick}) => {
   const [pass, setPass] = useState("");
 
   return (
-    <form className="loginForm">
+    <div className="loginForm">
       <div>
         <input
           className="RegisterFormInput"
@@ -31,6 +31,8 @@ export const Form = ({title, handleClick}) => {
           {title}
         </button>
       </div>
-    </form>
+    </div>
+
+
   );
 };

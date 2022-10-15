@@ -20,11 +20,12 @@ export const EditPriceModal = ({
 
   const editPrice = () => {
     const price = {
-      id: selectPrice.id,
+      id: selectPrice._id,
       title: PriceTitle,
       price: PoslugaPrice,
     };
     EditPrice(price);
+    console.log(selectPrice._id);
     handleHideEditPriceForm();
   };
   return (

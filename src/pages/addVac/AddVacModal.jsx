@@ -18,7 +18,6 @@ export const AddVacModal = ({ addNewVac, handleHideAddVacForm }) => {
   const createVac = (e) => {
     e.preventDefault();
     const vacs = {
-      // id: PriceArr.length + 1,
       title: VacTitle,
       price: VacPrice,
     };

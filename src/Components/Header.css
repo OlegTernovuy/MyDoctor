@@ -1,5 +1,6 @@
 .doc {
   font-size: 30px;
+  text-decoration: none;
 }
 
 .navbar-light .navbar-brand .nav-link {
@@ -16,6 +17,10 @@
   transition: color 0.1s linear;
 }
 
+.navbar-light .navbar-nav .nav-link {
+  max-width: max-content;
+}
+
 .navbar-light .navbar-nav .nav-link:hover {
   color: #46aff5;
 }
@@ -30,11 +35,6 @@
   bottom: 0;
   left: 0;
   background-color: #46aff5;
-}
-
-.navbar-light .navbar-nav .nav-link {
-  /* background-color: beige; */
-  max-width: max-content;
 }
 
 
